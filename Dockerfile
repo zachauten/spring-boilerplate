@@ -15,15 +15,11 @@ COPY --from=build target/*.jar ./app.jar
 RUN curl -sSLO 'https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.18.0/opentelemetry-javaagent.jar'
 
 ENV OTEL_SERVICE_NAME=spring-service
-ENV OTEL_TRACES_EXPORTER=logging
-ENV OTEL_METRICS_EXPORTER=logging
-ENV OTEL_LOGS_EXPORTER=logging
-ENV JAVA_OPTS="-javaagent:/app/opentelemetry-javaagent.jar"
 
 RUN groupadd -r nonroot && useradd --no-log-init -r -g nonroot nonroot
 USER nonroot
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-javaagent:opentelemetry-javaagent.jar", "-jar", "app.jar"]
 
 EXPOSE 8080
 HEALTHCHECK CMD curl -f http://0.0.0.0:8080/health || exit 1
