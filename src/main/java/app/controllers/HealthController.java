@@ -4,22 +4,22 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 
-@Controller
-@RequestMapping("/")
+@RestController()
 public class HealthController {
   
-  @RequestMapping("/health")
+  @GetMapping("health")
   public ResponseEntity<String> health() {
     return ResponseEntity.ok("Ok");
   }
 
   @WithSpan
-  @RequestMapping("/delay")
+  @GetMapping("delay")
   public ResponseEntity<String> delay() throws InterruptedException {
     var time = ThreadLocalRandom.current().nextInt(1000, 4000);
     Thread.sleep(time);
@@ -27,7 +27,7 @@ public class HealthController {
   }
 
   @WithSpan
-  @RequestMapping("/span")
+  @GetMapping("span")
   public ResponseEntity<String> span() throws InterruptedException {
     return ResponseEntity.ok(String.format("id: %s, num: %s", getUUID(), getValue()));
   }
