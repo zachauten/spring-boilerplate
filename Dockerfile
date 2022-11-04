@@ -12,9 +12,11 @@ FROM eclipse-temurin:17
 
 WORKDIR /app
 COPY --from=build target/*.jar ./app.jar
-RUN curl -sSLO 'https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.18.0/opentelemetry-javaagent.jar'
+RUN curl -sSLO https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.18.0/opentelemetry-javaagent.jar
 
 ENV OTEL_SERVICE_NAME=spring-service
+ENV OTEL_EXPORTER_OTLP_HEADERS=
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io
 
 RUN groupadd -r nonroot && useradd --no-log-init -r -g nonroot nonroot
 USER nonroot

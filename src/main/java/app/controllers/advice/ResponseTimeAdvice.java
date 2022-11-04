@@ -10,8 +10,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import io.opentelemetry.instrumentation.annotations.WithSpan;
-
 @RestControllerAdvice
 public class ResponseTimeAdvice implements ResponseBodyAdvice<Object> {
 
@@ -22,7 +20,6 @@ public class ResponseTimeAdvice implements ResponseBodyAdvice<Object> {
 
   @Override
   @Nullable
-  @WithSpan
   public Object beforeBodyWrite(@Nullable Object body, 
     MethodParameter returnType, 
     MediaType selectedContentType,
