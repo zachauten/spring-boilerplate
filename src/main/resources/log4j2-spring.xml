@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT" follow="true">
+      <JsonLayout compact="true" eventEol="true">
+        <KeyValuePair key="trace_id" value="$${ctx:trace_id:-}"/>
+        <KeyValuePair key="span_id" value="$${ctx:span_id:-}"/>
+        <KeyValuePair key="trace_flags" value="$${ctx:trace_flags:-}"/>
+      </JsonLayout>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Console" />
+    </Root>
+  </Loggers>
+</Configuration>
