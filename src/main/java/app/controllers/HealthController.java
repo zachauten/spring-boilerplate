@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.opentelemetry.instrumentation.annotations.WithSpan;
@@ -17,11 +18,11 @@ public class HealthController {
     return ResponseEntity.ok("Ok");
   }
 
-  @GetMapping("delay")
+  @PostMapping("delay")
   public ResponseEntity<String> delay() throws InterruptedException {
     var time = ThreadLocalRandom.current().nextInt(1000, 4000);
     Thread.sleep(time);
-    return ResponseEntity.ok("Ok");
+    return ResponseEntity.ok(String.valueOf(time));
   }
 
   @GetMapping("span")
