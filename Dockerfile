@@ -15,6 +15,8 @@ COPY --from=build target/*.jar ./app.jar
 RUN curl -sSLO https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.18.0/opentelemetry-javaagent.jar
 
 ENV OTEL_SERVICE_NAME=spring-service
+ENV OTEL_RESOURCE_ATTRIBUTES="service.version=0.1,deployment.environment=local"
+ENV OTEL_LOGS_EXPORTER=otlp
 ENV OTEL_EXPORTER_OTLP_HEADERS=
 ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io
 
