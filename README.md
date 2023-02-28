@@ -1,7 +1,16 @@
 # Spring Boilerplate
 
-## Observability
+## Build
+Build the docker image:
+```
+docker build \
+  -t spring-app \
+  --label org.opencontainers.image.revision=$(git rev-parse HEAD) \
+  --label org.opencontainers.image.source=https://github.com/zachauten/spring-boilerplate \
+  .
+```
 
+## Observability
 ### Commands to test open telemetry locally
 
 Remember to set up a docker network
@@ -29,6 +38,9 @@ docker run -d \
 --mount type=bind,src=$(pwd)/config.yaml,target=/etc/otelcol-contrib/config.yaml \
 --mount type=bind,src=/var/run/docker.sock,target=/var/run/docker.sock \
 -p 4317:4317 \
+-p 55680:55680 \
+-p 55679:55679 \
+-e DD_API_KEY=${DD_API_KEY} \
 otel/opentelemetry-collector-contrib
 ```
 

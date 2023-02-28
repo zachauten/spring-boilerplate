@@ -43,6 +43,7 @@ processors:
     timeout: 10s
 
 exporters:
+  logging:
   datadog:
     api:
       site: datadoghq.com
@@ -53,12 +54,12 @@ service:
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [datadog]
+      exporters: [datadog, logging]
     metrics:
       receivers: [hostmetrics, otlp]
       processors: [batch]
-      exporters: [datadog]
+      exporters: [datadog, logging]
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [datadog]
+      exporters: [datadog, logging]
