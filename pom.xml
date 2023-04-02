@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.4</version>
+        <version>3.0.5</version>
     </parent>
 
     <groupId>app</groupId>
@@ -16,9 +16,9 @@
     <name>spring-boot-boilerplate</name>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>20</java.version>
         <otel.version>1.18.0</otel.version>
-        <spring.version>2.7.4</spring.version>
+        <spring.version>3.0.5</spring.version>
     </properties>
 
     <dependencies>
@@ -71,7 +71,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.version}</version>
             </plugin>
         </plugins>
+        <!-- <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.yml</exclude>
+                </excludes>
+            </resource>
+        </resources> -->
     </build>
 </project>

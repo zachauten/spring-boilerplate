@@ -2,10 +2,11 @@ package app.interceptors;
 
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class ResponseTimeInterceptor implements HandlerInterceptor {
   
@@ -19,7 +20,7 @@ public class ResponseTimeInterceptor implements HandlerInterceptor {
   }
 
   @Override
-  public void afterCompletion(HttpServletRequest req, HttpServletResponse res, Object handler, Exception exception) {
+  public void afterCompletion(HttpServletRequest req, HttpServletResponse res, Object handler, @Nullable Exception exception) {
     var duration = res.getHeader("X-Response-Time");
     logger.info(String.format("%s %s - %s", req.getMethod(), req.getRequestURI(), duration));
   }
