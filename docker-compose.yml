@@ -1,0 +1,8 @@
+version: "3.1"
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      - DB_URL=jdbc:mariadb://db:3306/widgets

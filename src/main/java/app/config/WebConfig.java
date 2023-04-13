@@ -7,10 +7,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import app.interceptors.ResponseTimeInterceptor;
-import io.opentelemetry.sdk.OpenTelemetrySdk;
-// import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
-import io.opentelemetry.sdk.trace.SdkTracerProvider;
-import io.opentelemetry.sdk.trace.SdkTracerProviderBuilder;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -29,9 +25,4 @@ public class WebConfig implements WebMvcConfigurer {
       filter.setIncludeHeaders(false);
       return filter;
   }
-
-  // @Bean
-  // public OpenTelemetrySdk openTelemetrySdk() {
-  //   return AutoConfiguredOpenTelemetrySdk.initialize().getOpenTelemetrySdk();
-  // }
 }
