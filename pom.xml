@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
+        <version>3.1.4</version>
     </parent>
 
     <groupId>app</groupId>
@@ -16,9 +16,9 @@
     <name>spring-boot-boilerplate</name>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <otel.version>1.18.0</otel.version>
-        <spring.version>3.0.5</spring.version>
+        <spring.version>3.1.4</spring.version>
     </properties>
 
     <dependencies>
@@ -39,11 +39,11 @@
             <version>${spring.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${spring.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-layout-template-json</artifactId>
@@ -86,14 +86,5 @@
                 <version>${spring.version}</version>
             </plugin>
         </plugins>
-        <!-- <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <excludes>
-                    <exclude>**/*.yml</exclude>
-                </excludes>
-            </resource>
-        </resources> -->
     </build>
 </project>

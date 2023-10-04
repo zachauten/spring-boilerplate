@@ -1,4 +1,4 @@
-package app.controllers;
+package app.work;
 
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
