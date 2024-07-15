@@ -3,6 +3,8 @@ package app.work;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,12 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.metrics.*;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
-import lombok.extern.slf4j.Slf4j;
 
-
-@Slf4j
 @RestController
 public class WorkController {
+
+  private static final Logger log = LoggerFactory.getLogger(WorkController.class);
 
   private static final Meter meter =
       GlobalOpenTelemetry.getMeter("io.opentelemetry.example.metrics");

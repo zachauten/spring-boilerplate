@@ -5,7 +5,7 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["vscjava.vscode-java-pack", "VisualStudioExptTeam.vscodeintellicode", "PKief.material-icon-theme" ]
+      "extensions": ["vscjava.vscode-java-pack", "VisualStudioExptTeam.vscodeintellicode", "PKief.material-icon-theme"]
     }
   },
   "forwardPorts": [8080]

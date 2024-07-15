@@ -5,10 +5,13 @@
 ### Commands to test open telemetry locally
 
 Remember to set up a docker network
+
 ```
 docker network create telemetry
 ```
+
 Running Jaeger to test open telemetry spans
+
 ```
 docker run -d \
 --name jaeger \
@@ -20,7 +23,9 @@ docker run -d \
  -p 4318:4318 \
 jaegertracing/all-in-one
 ```
+
 Or, running the open telemetry collector:
+
 ```
 docker run -d \
 --name collector \
@@ -35,6 +40,7 @@ otel/opentelemetry-collector-contrib
 Running application
 
 Connecting to the collector: (docker)
+
 ```
 docker run -d \
 --name spring-app \
@@ -46,6 +52,7 @@ spring-app
 ```
 
 Honeycomb.io: (on host)
+
 ```
 OTEL_SERVICE_NAME=spring-service OTEL_EXPORTER_OTLP_HEADERS=x-honeycomb-team=$HONEYCOMB_API_KEY OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io java -javaagent:opentelemetry-javaagent.jar -jar target/*.jar
 ```
