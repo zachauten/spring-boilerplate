@@ -1,8 +1,59 @@
 version: "3.1"
 
 services:
-  db:
-    image: mariadb
-    restart: always
+  app:
+    build:
+      context: "./"
+    ports:
+      - "8080:8080"
+    depends_on:
+      sleep:
+        condition: service_completed_successfully
+      collector:
+        condition: service_started
+      # db:
+      #   condition: service_healthy
+  sleep:
+    image: busybox:latest
+    entrypoint: sleep 30
+
+  collector:
+    # https://github.com/open-telemetry/opentelemetry-collector-contrib
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    hostname: collector
     environment:
-      - DB_URL=jdbc:mariadb://db:3306/widgets
+      DD_API_KEY: ${DD_API_KEY}
+    ports:
+      # http
+      - "4318:4318"
+      # grpc
+      - "4317:4317"
+      # internal metrics: https://opentelemetry.io/docs/collector/internal-telemetry/#configure-internal-metrics
+      - "8888:8888"
+      # health check: https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/extension/healthcheckextension/README.md
+      - "13133:13133"
+      - "55680:55680"
+      - "55679:55679"
+      
+    volumes:
+      - type: bind
+        source: ./config.yaml
+        target: /etc/otelcol-contrib/config.yaml
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+    healthcheck:
+      test: ["CMD", "/healthcheck"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
+      start_interval: 0s
+
+
+  # db:
+  #   image: mariadb
+  #   restart: always
+  #   environment:
+  #     - DB_URL=jdbc:mariadb://db:3306/widgets

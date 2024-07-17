@@ -2,7 +2,9 @@ receivers:
   otlp:
     protocols:
       http:
+        endpoint: collector:4318
       grpc:
+        endpoint: collector:4317
   # The hostmetrics receiver is required to get correct infrastructure metrics in Datadog.
   hostmetrics:
     collection_interval: 10s
@@ -24,14 +26,6 @@ receivers:
       memory:
       network:
       processes:
-  # The prometheus receiver scrapes metrics needed for the OpenTelemetry Collector Dashboard.
-  prometheus:
-    config:
-      scrape_configs:
-      - job_name: 'otelcol'
-        scrape_interval: 10s
-        static_configs:
-        - targets: ['0.0.0.0:8888']
   docker_stats:
 
 processors:
@@ -41,9 +35,144 @@ processors:
     send_batch_max_size: 1000
     send_batch_size: 100
     timeout: 10s
+  # https://docs.datadoghq.com/opentelemetry/schema_semantics/host_metadata/#opting-in-to-the-feature
+  transform:
+    metric_statements:
+      - context: resource
+        statements:
+          - set(attributes["datadog.host.use_as_metadata"], true)
+    trace_statements:
+      - context: resource
+        statements:
+          - set(attributes["datadog.host.use_as_metadata"], true)
+    log_statements:
+      - context: resource
+        statements:
+          - set(attributes["datadog.host.use_as_metadata"], true)
+
+  metricstransform:
+    # https://docs.datadoghq.com/opentelemetry/runtime_metrics/java/
+    transforms:
+        # The total Java heap memory used.
+      - include: process.runtime.jvm.memory.usage
+        action: update
+        new_name: jvm.heap_memory
+        # The total Java heap memory committed to be used.
+      - include: process.runtime.jvm.memory.committed
+        action: update
+        new_name: jvm.heap_memory_committed
+        # The initial Java heap memory allocated.
+      - include: process.runtime.jvm.memory.init
+        action: update
+        new_name: jvm.heap_memory_init
+        # The maximum Java heap memory available.
+      - include: process.runtime.jvm.memory.limit
+        action: update
+        new_name: jvm.heap_memory_max
+        # The total Java non-heap memory used. Non-heap memory is:
+        # Metaspace + CompressedClassSpace + CodeCache.
+      - include: process.runtime.jvm.memory.usage
+        action: update
+        new_name: jvm.non_heap_memory
+        # The total Java non-heap memory committed to be used.
+      - include: process.runtime.jvm.memory.committed
+        action: update
+        new_name: jvm.non_heap_memory_committed
+        # The initial Java non-heap memory allocated.
+      - include: process.runtime.jvm.memory.init
+        action: update
+        new_name: jvm.non_heap_memory_init
+        # The maximum Java non-heap memory available.
+      - include: process.runtime.jvm.memory.limit
+        action: update
+        new_name: jvm.non_heap_memory_max
+      - include: process.runtime.jvm.memory.usage
+        action: update
+        new_name: jvm.gc.old_gen_size
+      - include: process.runtime.jvm.memory.usage
+        action: update
+        new_name: jvm.gc.eden_size
+      - include: process.runtime.jvm.memory.usage
+        action: update
+        new_name: jvm.gc.survivor_size
+      - include: process.runtime.jvm.memory.usage
+        action: update
+        new_name: jvm.gc.metaspace_size
+        # The number of live threads.
+      - include: process.runtime.jvm.threads.count
+        action: update
+        new_name: jvm.thread_count
+        # Number of classes currently loaded.
+      - include: process.runtime.jvm.classes.loaded
+        action: update
+        new_name: jvm.loaded_classes
+        # Recent CPU utilization for the whole system.
+      - include: process.runtime.jvm.system.cpu.utilization
+        action: update
+        new_name: jvm.cpu_load.system
+        # Recent CPU utilization for the process.
+      - include: process.runtime.jvm.cpu.utilization
+        action: update
+        new_name: jvm.cpu_load.process
+        # Measure of memory used by direct buffers.
+      - include: process.runtime.jvm.buffer.usage
+        action: update
+        new_name: jvm.buffer_pool.direct.used
+        # Number of direct buffers in the pool.
+      - include: process.runtime.jvm.buffer.count
+        action: update
+        new_name: jvm.buffer_pool.direct.count
+        # Measure of total memory capacity of direct buffers.
+      - include: process.runtime.jvm.buffer.limit
+        action: update
+        new_name: jvm.buffer_pool.direct.capacity
+        # Measure of memory used by mapped buffers.
+      - include: process.runtime.jvm.buffer.usage
+        action: update
+        new_name: jvm.buffer_pool.mapped.used
+        # Number of mapped buffers in the pool.
+      - include: process.runtime.jvm.buffer.count
+        action: update
+        new_name: jvm.buffer_pool.mapped.count
+        # Measure of total memory capacity of mapped buffers.
+      - include: process.runtime.jvm.buffer.limit
+        action: update
+        new_name: jvm.buffer_pool.mapped.capacity
+        # The approximate accumulated garbage collection time elapsed.
+      - include: process.runtime.jvm.gc.duration
+        action: update
+        new_name: jvm.gc.parnew.time
+        # AWS ECS metrics
+      - include: ecs.task.memory.utilized
+        action: update
+        new_name: MemoryUtilized
+      - include: ecs.task.memory.reserved
+        action: update
+        new_name: MemoryReserved
+      - include: ecs.task.cpu.utilized
+        action: update
+        new_name: CpuUtilized
+      - include: ecs.task.cpu.reserved
+        action: update
+        new_name: CpuReserved
+      - include: ecs.task.network.rate.rx
+        action: update
+        new_name: NetworkRxBytes
+      - include: ecs.task.network.rate.tx
+        action: update
+        new_name: NetworkTxBytes
+      - include: ecs.task.storage.read_bytes
+        action: update
+        new_name: StorageReadBytes
+      - include: ecs.task.storage.write_bytes
+        action: update
+        new_name: StorageWriteBytes
+
+connectors:
+  datadog/connector:
 
 exporters:
-  datadog:
+  datadog/exporter:
     api:
       site: datadoghq.com
       key: ${DD_API_KEY}
@@ -52,13 +181,13 @@ service:
   pipelines:
     logs:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [datadog]
+      processors: [batch, transform]
+      exporters: [datadog/exporter]
     metrics:
-      receivers: [hostmetrics, otlp]
-      processors: [batch]
-      exporters: [datadog]
+      receivers: [datadog/connector, otlp]
+      processors: [batch, transform, metricstransform]
+      exporters: [datadog/exporter]
     traces:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [datadog]
+      processors: [batch, transform]
+      exporters: [datadog/connector, datadog/exporter]

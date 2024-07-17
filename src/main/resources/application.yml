@@ -1,2 +1,18 @@
 server:
   shutdown: graceful
+
+otel:
+  exporter:
+    otlp:
+      endpoint: http://collector:4318/
+  resource:
+    attributes:
+      deployment.environment: local
+    providers:
+      aws:
+        enabled: false
+    name: spring-boilerplate
+    namespace: exmaple-namespace
+    version: alpha
+    instance:
+      id: FA5A872A-B5CC-4986-AAB4-2E6FB9C071BA
