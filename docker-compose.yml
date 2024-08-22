@@ -1,5 +1,3 @@
-version: "3.1"
-
 services:
   app:
     build:
@@ -16,6 +14,16 @@ services:
   sleep:
     image: busybox:latest
     entrypoint: sleep 30
+  bar:
+    build:
+      context: "./"
+    environment:
+      OTEL_SERVICE_NAME: "app_bar"
+    depends_on:
+      sleep:
+        condition: service_completed_successfully
+      collector:
+        condition: service_started
 
   collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib

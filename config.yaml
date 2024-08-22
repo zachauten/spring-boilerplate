@@ -173,6 +173,9 @@ connectors:
 
 exporters:
   datadog/exporter:
+    traces:
+      span_name_as_resource_name: true
+      trace_buffer: 500
     api:
       site: datadoghq.com
       key: ${DD_API_KEY}

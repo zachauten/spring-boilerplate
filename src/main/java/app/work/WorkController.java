@@ -1,5 +1,11 @@
 package app.work;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -16,6 +22,7 @@ import io.opentelemetry.instrumentation.annotations.WithSpan;
 @RestController
 public class WorkController {
 
+  private HttpClient client;
   private static final Logger log = LoggerFactory.getLogger(WorkController.class);
 
   private static final Meter meter =
@@ -26,6 +33,25 @@ public class WorkController {
     .setUnit("ms")
     .build();
 
+  public WorkController(HttpClient client) {
+    this.client = client;
+  }  
+
+  @WithSpan
+  @GetMapping("foo")
+  public ResponseEntity<String> foo() throws IOException, InterruptedException, URISyntaxException {
+    var uri = new URI("http://bar:8080/bar");
+    var req = HttpRequest.newBuilder(uri).GET().build();
+    var res = this.client.send(req, BodyHandlers.ofString());
+    var str = res.body();
+    return ResponseEntity.ok("foo" + str);
+  }
+
+  @WithSpan
+  @GetMapping("bar")
+  public ResponseEntity<String> bar() {
+    return ResponseEntity.ok("bar");
+  }
 
   @WithSpan
   @PostMapping("work")

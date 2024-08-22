@@ -1,4 +1,5 @@
 server:
+  address: 0.0.0.0
   shutdown: graceful
 
 otel:
@@ -8,6 +9,7 @@ otel:
   resource:
     attributes:
       deployment.environment: local
+      host.name: ${HOSTNAME}
     providers:
       aws:
         enabled: false
