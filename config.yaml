@@ -171,8 +171,8 @@ processors:
 connectors:
   datadog/connector:
     traces:
-    span_name_as_resource_name: true
-    trace_buffer: 500
+      span_name_as_resource_name: true
+      trace_buffer: 500
 
 exporters:
   datadog/exporter:

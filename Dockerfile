@@ -19,11 +19,9 @@ RUN groupadd -r nonroot && useradd --no-log-init -r -g nonroot nonroot
 USER nonroot
 
 ENV OTEL_EXPORTER_OTLP_ENDPOINT="http://collector:4318/"
-ENV 
-ENV SERVICE_NAME="spring-boilerplate"
-ENV SERVICE_VERSION="alpha"
+ENV OTE_SERVICE_NAME="spring-boilerplate"
 
-ENTRYPOINT ["java", "-javaagent", "opentelemetry-javaagent.jar", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-jar", "app.jar"]
 
 EXPOSE 8080
 HEALTHCHECK CMD curl -f http://0.0.0.0:8080/health || exit 1

@@ -1,9 +1,12 @@
 services:
-  app:
+  foo:
     build:
       context: "./"
     ports:
       - "8080:8080"
+    environment:
+      OTEL_SERVICE_NAME: "foo"
+      OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=B9B7E669-48A6-47C1-BCE4-F3B7AEF82754"
     depends_on:
       sleep:
         condition: service_completed_successfully
@@ -18,7 +21,9 @@ services:
     build:
       context: "./"
     environment:
-      OTEL_SERVICE_NAME: "app_bar"
+      OTEL_SERVICE_NAME: "bar"
+      OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=B5814225-70B0-4B77-B276-3163C5828B26"
+
     depends_on:
       sleep:
         condition: service_completed_successfully
