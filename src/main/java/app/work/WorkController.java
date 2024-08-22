@@ -22,7 +22,7 @@ import io.opentelemetry.instrumentation.annotations.WithSpan;
 @RestController
 public class WorkController {
 
-  private HttpClient client;
+  private HttpClient client = HttpClient.newHttpClient();
   private static final Logger log = LoggerFactory.getLogger(WorkController.class);
 
   private static final Meter meter =
@@ -32,10 +32,6 @@ public class WorkController {
     .setDescription("Total time spent sleeping in /work")
     .setUnit("ms")
     .build();
-
-  public WorkController(HttpClient client) {
-    this.client = client;
-  }  
 
   @WithSpan
   @GetMapping("foo")
