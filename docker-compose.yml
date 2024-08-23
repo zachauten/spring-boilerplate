@@ -12,8 +12,7 @@ services:
         condition: service_completed_successfully
       collector:
         condition: service_started
-      # db:
-      #   condition: service_healthy
+  # Wait for collector to start
   sleep:
     image: busybox:latest
     entrypoint: sleep 30
@@ -32,7 +31,7 @@ services:
 
   collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib
-    image: otel/opentelemetry-collector-contrib:0.104.0
+    image: otel/opentelemetry-collector-contrib:0.108.0
     hostname: collector
     environment:
       DD_API_KEY: ${DD_API_KEY}
@@ -63,10 +62,3 @@ services:
       retries: 3
       start_period: 0s
       start_interval: 0s
-
-
-  # db:
-  #   image: mariadb
-  #   restart: always
-  #   environment:
-  #     - DB_URL=jdbc:mariadb://db:3306/widgets
