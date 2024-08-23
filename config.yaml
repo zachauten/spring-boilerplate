@@ -171,14 +171,16 @@ processors:
 connectors:
   datadog/connector:
     traces:
-      span_name_as_resource_name: true
+      # span_name_as_resource_name: true
       trace_buffer: 500
+      ignore_resources: ["(GET) /health"]
 
 exporters:
   datadog/exporter:
     traces:
-      span_name_as_resource_name: true
+      # span_name_as_resource_name: true
       trace_buffer: 500
+      ignore_resources: ["(GET) /health"]
     api:
       site: datadoghq.com
       key: ${DD_API_KEY}
