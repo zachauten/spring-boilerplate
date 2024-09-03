@@ -25,11 +25,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.bandwidth.voice</groupId>
-                <artifactId>web-api</artifactId>
-                <version>${revision}</version>
-                </dependency>
-            <dependency>
                 <groupId>io.opentelemetry</groupId>
                 <artifactId>opentelemetry-bom</artifactId>
                 <version>1.39.0</version>
@@ -73,7 +68,17 @@
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-java-http-client</artifactId>
-        </dependency>        
+        </dependency>     
+        <dependency>
+            <groupId>dev.openfeature</groupId>
+            <artifactId>sdk</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.openfeature.contrib.providers</groupId>
+            <artifactId>flagd</artifactId>
+            <version>0.8.6</version>
+        </dependency>   
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

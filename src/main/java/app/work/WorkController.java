@@ -1,5 +1,8 @@
 package app.work;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.metrics.*;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -8,16 +11,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
-
-import io.opentelemetry.api.GlobalOpenTelemetry;
-import io.opentelemetry.api.metrics.*;
-import io.opentelemetry.instrumentation.annotations.WithSpan;
 
 @RestController
 public class WorkController {
@@ -27,15 +25,16 @@ public class WorkController {
 
   private static final Meter meter =
       GlobalOpenTelemetry.getMeter("io.opentelemetry.example.metrics");
-  private static final LongCounter sleepCounter = meter
-    .counterBuilder("time_slept")
-    .setDescription("Total time spent sleeping in /work")
-    .setUnit("ms")
-    .build();
+  private static final LongCounter sleepCounter =
+      meter
+          .counterBuilder("time_slept")
+          .setDescription("Total time spent sleeping in /work")
+          .setUnit("ms")
+          .build();
 
   public WorkController(HttpClient client) {
     this.client = client;
-  }  
+  }
 
   @WithSpan
   @GetMapping("foo")
@@ -95,5 +94,4 @@ public class WorkController {
     Thread.sleep(time);
     return Math.random();
   }
-
 }
