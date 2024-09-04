@@ -53,10 +53,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api</artifactId>
         </dependency>
@@ -64,10 +60,6 @@
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-instrumentation-annotations</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-java-http-client</artifactId>
-        </dependency>     
         <dependency>
             <groupId>dev.openfeature</groupId>
             <artifactId>sdk</artifactId>
@@ -77,7 +69,11 @@
             <groupId>dev.openfeature.contrib.providers</groupId>
             <artifactId>flagd</artifactId>
             <version>0.8.6</version>
-        </dependency>   
+        </dependency> 
+        <dependency>  
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

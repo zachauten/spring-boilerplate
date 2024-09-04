@@ -13,10 +13,15 @@ FROM eclipse-temurin:21
 WORKDIR /app
 COPY --from=build target/*.jar ./app.jar
 
+RUN curl -sSLO https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.5.0/opentelemetry-javaagent.jar
+
 RUN groupadd -r nonroot && useradd --no-log-init -r -g nonroot nonroot
 USER nonroot
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENV OTEL_EXPORTER_OTLP_ENDPOINT="http://collector:4318/"
+ENV OTE_SERVICE_NAME="spring-boilerplate"
+
+ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-jar", "app.jar"]
 
 EXPOSE 8080
 HEALTHCHECK CMD curl -f http://0.0.0.0:8080/health || exit 1

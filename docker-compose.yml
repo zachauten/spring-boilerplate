@@ -1,16 +1,18 @@
 services:
-  app:
+  foo:
     build:
       context: "./"
     ports:
       - "8080:8080"
+    environment:
+      OTEL_SERVICE_NAME: "foo"
+      OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=B9B7E669-48A6-47C1-BCE4-F3B7AEF82754"
     depends_on:
       sleep:
         condition: service_completed_successfully
       collector:
         condition: service_started
-      # db:
-      #   condition: service_healthy
+  # Wait for collector to start
   sleep:
     image: busybox:latest
     entrypoint: sleep 30
@@ -24,20 +26,20 @@ services:
         source: ./
         target: /etc/flagd/
     command: ["start", "--uri", "file:/etc/flagd/flags.flagd.json"]
-  # bar:
-  #   build:
-  #     context: "./"
-  #   environment:
-  #     OTEL_SERVICE_NAME: "app_bar"
-  #   depends_on:
-  #     sleep:
-  #       condition: service_completed_successfully
-  #     collector:
-  #       condition: service_started
+  bar:
+    build:
+      context: "./"
+    environment:
+      OTEL_SERVICE_NAME: "app_bar"
+    depends_on:
+      sleep:
+        condition: service_completed_successfully
+      collector:
+        condition: service_started
 
   collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib
-    image: otel/opentelemetry-collector-contrib:0.104.0
+    image: otel/opentelemetry-collector-contrib:0.108.0
     hostname: collector
     environment:
       DD_API_KEY: ${DD_API_KEY}
@@ -67,10 +69,3 @@ services:
       timeout: 10s
       retries: 3
       start_period: 0s
-
-
-  # db:
-  #   image: mariadb
-  #   restart: always
-  #   environment:
-  #     - DB_URL=jdbc:mariadb://db:3306/widgets

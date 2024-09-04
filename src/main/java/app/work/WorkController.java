@@ -22,8 +22,8 @@ import dev.openfeature.sdk.OpenFeatureAPI;
 @RestController
 public class WorkController {
 
-  private HttpClient client;
   private OpenFeatureAPI openFeatureAPI;
+  private HttpClient client = HttpClient.newHttpClient();
   private static final Logger log = LoggerFactory.getLogger(WorkController.class);
 
   private static final Meter meter =
@@ -35,8 +35,7 @@ public class WorkController {
           .setUnit("ms")
           .build();
 
-  public WorkController(HttpClient client, OpenFeatureAPI openFeatureAPI) {
-    this.client = client;
+  public WorkController(OpenFeatureAPI openFeatureAPI) {
     this.openFeatureAPI = openFeatureAPI;
   }
 
