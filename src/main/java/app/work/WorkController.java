@@ -1,5 +1,6 @@
 package app.work;
 
+import dev.openfeature.sdk.OpenFeatureAPI;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.metrics.*;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
@@ -16,8 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
-
-import dev.openfeature.sdk.OpenFeatureAPI;
 
 @RestController
 public class WorkController {

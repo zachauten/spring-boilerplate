@@ -183,7 +183,11 @@ exporters:
       site: datadoghq.com
       key: ${DD_API_KEY}
 
+extensions:
+  health_check:
+
 service:
+  extensions: [health_check]
   pipelines:
     logs:
       receivers: [otlp]

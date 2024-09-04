@@ -8,15 +8,8 @@ services:
       OTEL_SERVICE_NAME: "foo"
       OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=B9B7E669-48A6-47C1-BCE4-F3B7AEF82754"
     depends_on:
-      sleep:
-        condition: service_completed_successfully
       collector:
-        condition: service_started
-  # Wait for collector to start
-  sleep:
-    image: busybox:latest
-    entrypoint: sleep 30
-  # docker run -p 8013:8013 -v $(pwd)/:/etc/flagd/ -it ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/flags.flagd.json
+        condition: service_healthy
   flagd:
     image: ghcr.io/open-feature/flagd:latest
     ports:
@@ -32,14 +25,14 @@ services:
     environment:
       OTEL_SERVICE_NAME: "app_bar"
     depends_on:
-      sleep:
-        condition: service_completed_successfully
       collector:
-        condition: service_started
+        condition: service_healthy
 
   collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib
-    image: otel/opentelemetry-collector-contrib:0.108.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile.collector
     hostname: collector
     environment:
       DD_API_KEY: ${DD_API_KEY}
@@ -63,9 +56,9 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
         read_only: true
-    healthcheck:
-      test: ["CMD", "/healthcheck"]
-      interval: 5s
-      timeout: 10s
-      retries: 3
-      start_period: 0s
+#    healthcheck:
+#      test: ["CMD", "/healthcheck"]
+#      interval: 5s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 0s

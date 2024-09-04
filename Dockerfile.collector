@@ -1,0 +1,8 @@
+FROM public.ecr.aws/aws-observability/aws-otel-collector:latest as aws-otel
+FROM otel/opentelemetry-collector-contrib:0.108.0
+
+COPY --from=aws-otel /healthcheck /healthcheck
+COPY config.yaml /etc/otelcol-contrib/config.yaml
+
+HEALTHCHECK --start-interval=35s --interval=10s --retries=5 --timeout=5s CMD ["/healthcheck"]
+
