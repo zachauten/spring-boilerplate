@@ -14,16 +14,26 @@ services:
   sleep:
     image: busybox:latest
     entrypoint: sleep 30
-  bar:
-    build:
-      context: "./"
-    environment:
-      OTEL_SERVICE_NAME: "app_bar"
-    depends_on:
-      sleep:
-        condition: service_completed_successfully
-      collector:
-        condition: service_started
+  # docker run -p 8013:8013 -v $(pwd)/:/etc/flagd/ -it ghcr.io/open-feature/flagd:latest start --uri file:/etc/flagd/flags.flagd.json
+  flagd:
+    image: ghcr.io/open-feature/flagd:latest
+    ports:
+      - "8013:8013"
+    volumes:
+      - type: bind
+        source: ./
+        target: /etc/flagd/
+    command: ["start", "--uri", "file:/etc/flagd/flags.flagd.json"]
+  # bar:
+  #   build:
+  #     context: "./"
+  #   environment:
+  #     OTEL_SERVICE_NAME: "app_bar"
+  #   depends_on:
+  #     sleep:
+  #       condition: service_completed_successfully
+  #     collector:
+  #       condition: service_started
 
   collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib
@@ -57,7 +67,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 0s
-      start_interval: 0s
 
 
   # db:

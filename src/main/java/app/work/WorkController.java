@@ -17,10 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.openfeature.sdk.OpenFeatureAPI;
+
 @RestController
 public class WorkController {
 
   private HttpClient client;
+  private OpenFeatureAPI openFeatureAPI;
   private static final Logger log = LoggerFactory.getLogger(WorkController.class);
 
   private static final Meter meter =
@@ -32,8 +35,9 @@ public class WorkController {
           .setUnit("ms")
           .build();
 
-  public WorkController(HttpClient client) {
+  public WorkController(HttpClient client, OpenFeatureAPI openFeatureAPI) {
     this.client = client;
+    this.openFeatureAPI = openFeatureAPI;
   }
 
   @WithSpan
@@ -67,6 +71,16 @@ public class WorkController {
   @GetMapping("span")
   public ResponseEntity<String> span() throws InterruptedException {
     return ResponseEntity.ok(String.format("id: %s, num: %s", getUUID(), getValue()));
+  }
+
+  @WithSpan
+  @GetMapping("hello")
+  public String hello() {
+    final var ofClient = this.openFeatureAPI.getClient();
+    if (ofClient.getBooleanValue("foo", false)) {
+      return "foo";
+    }
+    return "bar";
   }
 
   @WithSpan
