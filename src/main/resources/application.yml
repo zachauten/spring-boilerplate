@@ -1,3 +1,8 @@
 server:
   address: 0.0.0.0
   shutdown: graceful
+
+spring:
+  threads:
+    virtual:
+      enabled: true
