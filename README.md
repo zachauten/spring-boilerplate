@@ -1,5 +1,10 @@
 # Spring Boilerplate
 
+## Building
+Build using [buildx bake](https://docs.docker.com/build/bake/): 
+
+`docker buildx bake` (From the project root)
+
 ## Observability
 
 ### Commands to test open telemetry locally

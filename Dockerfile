@@ -1,14 +1,12 @@
-# docker build -t spring-app .
-# docker run --name spring-app -d -p 8080:8080 spring-app
-
-FROM maven:3.9.8-eclipse-temurin-21 as build
+# docker run --name spring-boilerplate -d -p 8080:8080 spring-boilerplate
+FROM maven:3.9.8-eclipse-temurin-21 AS build
 
 COPY pom.xml .
 RUN --mount=type=cache,target=/root/.m2,rw mvn -B dependency:go-offline
 COPY src src
 RUN --mount=type=cache,target=/root/.m2,rw mvn -B package
 
-FROM eclipse-temurin:21
+FROM eclipse-temurin:21-jammy
 
 WORKDIR /app
 COPY --from=build target/*.jar ./app.jar
@@ -25,4 +23,3 @@ ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-jar", "app.
 
 EXPOSE 8080
 HEALTHCHECK CMD curl -f http://0.0.0.0:8080/health || exit 1
-
