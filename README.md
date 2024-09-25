@@ -1,7 +1,8 @@
 # Spring Boilerplate
 
 ## Building
-Build using [buildx bake](https://docs.docker.com/build/bake/): 
+
+Build using [buildx bake](https://docs.docker.com/build/bake/):
 
 `docker buildx bake` (From the project root)
 
