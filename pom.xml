@@ -2,12 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!-- <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
-    </parent> -->
-
     <groupId>app</groupId>
     <artifactId>spring-boot-boilerplate</artifactId>
     <version>0.0.1</version>
@@ -16,6 +10,8 @@
     <name>spring-boot-boilerplate</name>
 
     <properties>
+        <!-- https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
+        <project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
         <spring.version>3.3.1</spring.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -52,6 +48,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- Observability https://opentelemetry.io/docs/languages/java/ -->
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api</artifactId>
@@ -60,6 +57,11 @@
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-instrumentation-annotations</artifactId>
         </dependency>
+        <dependency>  
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+        </dependency>
+        <!-- Feature flags https://openfeature.dev/ -->
         <dependency>
             <groupId>dev.openfeature</groupId>
             <artifactId>sdk</artifactId>
@@ -70,10 +72,7 @@
             <artifactId>flagd</artifactId>
             <version>0.8.6</version>
         </dependency> 
-        <dependency>  
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-logback-appender-1.0</artifactId>
-        </dependency>
+        <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
