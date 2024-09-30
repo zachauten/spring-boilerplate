@@ -81,6 +81,28 @@ public class WorkController {
     return "bar";
   }
 
+  @GetMapping("zach")
+  public Person zach() {
+    return new Person("zach", 31);
+  }
+
+  @PostMapping("commands")
+  public Person commands(@RequestBody Person person) {
+    var executor = new CommandExecutor();
+    var n = new Object() { int value = person.age(); };
+    executor.add(() -> {
+      var rand = ThreadLocalRandom.current().nextInt(5);
+      if (rand < 3) {
+        throw new Exception("Oops!");
+      }
+      n.value += rand;
+      return () -> {
+      };
+    });
+    executor.execute();
+    return new Person(person.name(), n.value);
+  }
+
   @WithSpan
   private void doSomeWork(int time) throws InterruptedException {
     log.info("doing work for " + time + "ms");
