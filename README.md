@@ -1,5 +1,10 @@
 # Spring Boilerplate
 
+## Code Gen
+
+[TypeSpec](https://github.com/microsoft/typespec)
+[typespec-java](https://www.npmjs.com/package/@azure-tools/typespec-java)
+
 ## Observability
 
 ### Commands to test open telemetry locally

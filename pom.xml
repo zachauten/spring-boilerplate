@@ -80,6 +80,17 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- Code Gen -->
+         <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -101,6 +112,37 @@
                     </execution>
                 </executions>                
             </plugin>
+            <plugin>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-maven-plugin</artifactId>
+    <!-- RELEASE_VERSION -->
+    <version>7.8.0</version>
+    <!-- /RELEASE_VERSION -->
+    <executions>
+        <execution>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+            <configuration>
+                <inputSpec>${project.basedir}/tsp-output/@typespec/openapi3/openapi.yaml</inputSpec>
+                <generatorName>java</generatorName>
+                <apiPackage>app.openapi.api</apiPackage>
+                <modelPackage>app.openapi.model</modelPackage>
+                <generateApis>false</generateApis>
+                <supportingFilesToGenerate>
+                    ApiUtil.java
+                </supportingFilesToGenerate>
+                
+                <configOptions>
+                 <delegatePattern>true</delegatePattern>
+                    <sourceFolder>src/gen/java/main</sourceFolder>
+                    <useJakartaEe>true</useJakartaEe>
+                    <serializationLibrary>jackson</serializationLibrary>
+                </configOptions>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
         </plugins>
     </build>
 </project>
