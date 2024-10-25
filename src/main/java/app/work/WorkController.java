@@ -81,6 +81,14 @@ public class WorkController {
     return "bar";
   }
 
+  @PostMapping("parse")
+  public String parseADT(@RequestBody Animal animal) {
+    return switch(animal) {
+      case Dog d -> d.bone;
+      case Cat c -> c.milk;
+    };
+  }
+
   @WithSpan
   private void doSomeWork(int time) throws InterruptedException {
     log.info("doing work for " + time + "ms");
