@@ -1,5 +1,12 @@
 {
   "recommendations": [
-    "vscjava.vscode-java-pack"
+    "vscjava.vscode-java-pack",
+    "ms-vscode-remote.remote-wsl",
+    "vscjava.vscode-java-pack",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "hashicorp.hcl",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "bierner.markdown-mermaid"
   ]
 }
