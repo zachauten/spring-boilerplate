@@ -1,3 +1,4 @@
+# Only reason i'm using a Dockerfile for the collector is so that I can take the healthcheck from the AWS collector
 FROM public.ecr.aws/aws-observability/aws-otel-collector:latest as aws-otel
 FROM otel/opentelemetry-collector-contrib:0.108.0
 

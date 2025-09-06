@@ -1,7 +1,8 @@
 # Spring Boilerplate
 
 ## Building
-Build using [buildx bake](https://docs.docker.com/build/bake/): 
+
+Build using [buildx bake](https://docs.docker.com/build/bake/):
 
 `docker buildx bake` (From the project root)
 
@@ -60,4 +61,16 @@ Honeycomb.io: (on host)
 
 ```
 OTEL_SERVICE_NAME=spring-service OTEL_EXPORTER_OTLP_HEADERS=x-honeycomb-team=$HONEYCOMB_API_KEY OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io java -javaagent:opentelemetry-javaagent.jar -jar target/*.jar
+```
+
+Before you run the java formatter, you need to download the formatter jar to this directory:
+
+```
+curl -sSLo formatter.jar https://github.com/google/google-java-format/releases/download/v1.23.0/google-java-format-1.23.0-all-deps.jar
+```
+
+To run the formatter, run this command from the project root directory (point the config to this folder)
+
+```
+dprint fmt --config=fmt/dprint.json
 ```
