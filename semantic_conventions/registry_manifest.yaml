@@ -1,0 +1,7 @@
+name: <custom registry name>
+description: <an optional description of the custom registry>
+semconv_version: <version of this custom registry>
+schema_base_url: <base URL where the registry's schema files are hosted>
+dependencies:
+  - name: otel
+    registry_path: https://github.com/open-telemetry/semantic-conventions/archive/refs/tags/v1.34.0.zip[model]

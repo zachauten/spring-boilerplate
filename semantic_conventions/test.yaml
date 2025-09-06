@@ -1,0 +1,19 @@
+groups:
+  - id: span.example_message
+    type: span
+    stability: experimental
+    brief: This span represents a simple message.
+    span_kind: client
+    attributes:
+      - ref: host.name                 # imported from OTEL semantic conventions
+        requirement_level: required    # requirement level redefined locally
+      - ref: host.arch                 # imported from OTEL semantic conventions
+        requirement_level: required    # requirement level redefined locally
+
+imports:
+  metrics:
+    - db.*                # import all metrics in the `db` namespace
+  entities:
+    - gcp.*               # import all entities in the `gcp` namespace
+  events:
+    - session.start       # import the `session.start` event
