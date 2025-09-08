@@ -1,4 +1,4 @@
-package app.work;
+package boilerplate.api.work;
 
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package app.work;
+package boilerplate.api.work;
 
 import dev.openfeature.sdk.OpenFeatureAPI;
 import io.opentelemetry.api.GlobalOpenTelemetry;

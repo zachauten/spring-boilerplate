@@ -1,4 +1,4 @@
-package app.advice;
+package boilerplate.api.advice;
 
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.slf4j.Logger;

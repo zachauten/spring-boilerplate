@@ -1,4 +1,4 @@
-package app;
+package boilerplate.api;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

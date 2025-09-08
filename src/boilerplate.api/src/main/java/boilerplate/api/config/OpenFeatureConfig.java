@@ -1,4 +1,4 @@
-package app.config;
+package boilerplate.api.config;
 
 import dev.openfeature.sdk.OpenFeatureAPI;
 import org.springframework.context.annotation.Bean;
