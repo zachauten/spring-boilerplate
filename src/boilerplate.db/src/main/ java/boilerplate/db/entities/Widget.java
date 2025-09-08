@@ -1,6 +1,4 @@
 package boilerplate.db.entities;
 
 @Entity
-public class Widget {
-    
-}
+public class Widget {}

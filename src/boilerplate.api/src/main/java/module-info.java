@@ -10,7 +10,6 @@ module boilerplate.api {
   requires spring.context;
   requires spring.beans;
   requires spring.core;
-
   requires java.net.http;
   requires io.opentelemetry.instrumentation_annotations;
   requires io.opentelemetry.api;
@@ -22,7 +21,7 @@ module boilerplate.api {
   requires com.fasterxml.jackson.databind;
 
   // IMPORTANT: Open the main package for component scanning
-  opens com.example.api to
+  opens boilerplate.api to
       spring.core,
       spring.beans,
       spring.context,

@@ -1,5 +1,3 @@
 package boilerplate.model.requests;
 
-public record WorkResponse(String hello) {
-    
-}
+public record WorkResponse(String hello) {}
