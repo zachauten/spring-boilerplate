@@ -1,7 +1,7 @@
 module boilerplate.api {
   // Requires our internal modules
   requires boilerplate.model;
-  requires boilerplate.db;
+  // requires boilerplate.db;
 
   // Requires Spring Boot and Web modules
   requires spring.boot;
@@ -11,13 +11,15 @@ module boilerplate.api {
   requires spring.beans;
   requires spring.core;
 
+  requires java.net.http;
+  requires io.opentelemetry.instrumentation_annotations;
+  requires io.opentelemetry.api;
+  requires org.slf4j;
+  requires dev.openfeature.sdk;
+
   // Required by auto-configuration
-  // requires spring.data.jpa;
-  // requires com.h2database;
-  // requires jakarta.persistence;
-  // requires org.hibernate.orm.core;
-  // requires java.sql;
-  // requires com.fasterxml.jackson.databind;
+  requires spring.data.jpa;
+  requires com.fasterxml.jackson.databind;
 
   // IMPORTANT: Open the main package for component scanning
   opens com.example.api to

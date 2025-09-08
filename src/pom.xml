@@ -45,8 +45,8 @@
 
 
     <modules>
-        <module>api</module>
-        <module>db</module>
-        <module>model</module>
+        <module>boilerplate.api</module>
+        <module>boilerplate.db</module>
+        <module>boilerplate.model</module>
     </modules>
 </project>
