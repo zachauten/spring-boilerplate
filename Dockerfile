@@ -1,4 +1,4 @@
-# docker run --name spring-boilerplate -d -p 8080:8080 spring-boilerplate
+# syntax=docker/dockerfile:1
 FROM maven:3.9.11-eclipse-temurin-21-noble AS build
 
 COPY src/pom.xml src/pom.xml
