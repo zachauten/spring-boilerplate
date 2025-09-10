@@ -24,7 +24,7 @@ services:
     build:
       context: "./"
     environment:
-      OTEL_SERVICE_NAME: "app_bar"
+      OTEL_SERVICE_NAME: "bar"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318/"
       OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=1fd2b940-bc77-4415-812c-da32c28394d2"
     depends_on:
@@ -59,9 +59,9 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
         read_only: true
-#    healthcheck:
-#      test: ["CMD", "/healthcheck"]
-#      interval: 5s
-#      timeout: 10s
-#      retries: 3
-#      start_period: 0s
+    healthcheck:
+      test: ["CMD", "/healthcheck"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 0s
