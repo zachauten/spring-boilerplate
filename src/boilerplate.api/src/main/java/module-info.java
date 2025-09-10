@@ -1,7 +1,7 @@
 module boilerplate.api {
   // Requires our internal modules
   requires boilerplate.model;
-  // requires boilerplate.db;
+  requires boilerplate.db;
 
   // Requires Spring Boot and Web modules
   requires spring.boot;

@@ -6,6 +6,7 @@ services:
       - "8080:8080"
     environment:
       OTEL_SERVICE_NAME: "foo"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318/"
       OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=B9B7E669-48A6-47C1-BCE4-F3B7AEF82754"
     depends_on:
       collector:
@@ -24,6 +25,8 @@ services:
       context: "./"
     environment:
       OTEL_SERVICE_NAME: "app_bar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318/"
+      OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=1fd2b940-bc77-4415-812c-da32c28394d2"
     depends_on:
       collector:
         condition: service_healthy
