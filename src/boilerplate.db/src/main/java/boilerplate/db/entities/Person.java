@@ -3,8 +3,8 @@ package boilerplate.db.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "widgets")
-public class Widget {
+@Table(name = "people")
+public class Person {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,20 +13,16 @@ public class Widget {
     @Column(nullable = false)
     private String name;
     
-    private String value;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private Person owner;
+    @Column(nullable = false)
+    private Integer age;
     
     // Default constructor
-    public Widget() {}
+    public Person() {}
     
     // Constructor with parameters
-    public Widget(String name, String value, Person owner) {
+    public Person(String name, Integer age) {
         this.name = name;
-        this.value = value;
-        this.owner = owner;
+        this.age = age;
     }
     
     // Getters and setters
@@ -46,29 +42,20 @@ public class Widget {
         this.name = name;
     }
     
-    public String getValue() {
-        return value;
+    public Integer getAge() {
+        return age;
     }
     
-    public void setValue(String value) {
-        this.value = value;
-    }
-    
-    public Person getOwner() {
-        return owner;
-    }
-    
-    public void setOwner(Person owner) {
-        this.owner = owner;
+    public void setAge(Integer age) {
+        this.age = age;
     }
     
     @Override
     public String toString() {
-        return "Widget{" +
+        return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", value='" + value + '\'' +
-                ", owner=" + (owner != null ? owner.getId() : null) +
+                ", age=" + age +
                 '}';
     }
 }

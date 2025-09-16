@@ -16,8 +16,6 @@ module boilerplate.api {
   requires org.slf4j;
   requires dev.openfeature.sdk;
 
-  // Required by auto-configuration
-  requires spring.data.jpa;
   requires com.fasterxml.jackson.databind;
 
   // IMPORTANT: Open the main package for component scanning

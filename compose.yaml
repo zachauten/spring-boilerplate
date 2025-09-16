@@ -1,4 +1,21 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: boilerplate
+      POSTGRES_USER: boilerplate_user
+      POSTGRES_PASSWORD: boilerplate_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U boilerplate_user -d boilerplate"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   foo:
     build:
       context: "./"
@@ -9,6 +26,8 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318/"
       OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=B9B7E669-48A6-47C1-BCE4-F3B7AEF82754"
     depends_on:
+      postgres:
+        condition: service_healthy
       collector:
         condition: service_healthy
   flagd:
@@ -28,6 +47,8 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318/"
       OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=1fd2b940-bc77-4415-812c-da32c28394d2"
     depends_on:
+      postgres:
+        condition: service_healthy
       collector:
         condition: service_healthy
 
@@ -65,3 +86,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 0s
+
+volumes:
+  postgres_data:
