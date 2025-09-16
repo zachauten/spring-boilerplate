@@ -3,6 +3,11 @@ server:
   shutdown: graceful
 
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boilerplate
+    username: boilerplate_user
+    password: boilerplate_pass
+    driver-class-name: org.postgresql.Driver
   threads:
     virtual:
       enabled: true
