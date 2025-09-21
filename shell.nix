@@ -7,5 +7,7 @@ pkgs.mkShellNoCC {
   packages = with pkgs; [
     jdk
     dprint
+    tree
+    maven
   ];
 }
