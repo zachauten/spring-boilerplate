@@ -71,7 +71,7 @@ services:
       - "13133:13133"
       - "55680:55680"
       - "55679:55679"
-      
+
     volumes:
       - type: bind
         source: ./config.yaml
