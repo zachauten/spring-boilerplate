@@ -9,5 +9,7 @@ pkgs.mkShellNoCC {
     dprint
     tree
     maven
+    openapi-generator-cli
+    typespec
   ];
 }
