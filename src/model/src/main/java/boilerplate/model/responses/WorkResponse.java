@@ -1,3 +1,3 @@
-package boilerplate.model.requests;
+package boilerplate.model.responses;
 
 public record WorkResponse(String hello) {}

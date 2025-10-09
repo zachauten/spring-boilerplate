@@ -4,6 +4,9 @@ import boilerplate.db.entities.Person;
 import boilerplate.db.entities.Widget;
 import boilerplate.db.repository.PersonRepository;
 import boilerplate.db.repository.WidgetRepository;
+import boilerplate.model.responses.PersonResponse;
+import boilerplate.model.requests.PersonUpdateRequest;
+
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +40,13 @@ public class PeopleController {
   @PostMapping("/widgets")
   public Widget createWidget(@RequestBody Widget widget) {
     return widgetRepository.save(widget);
+  }
+
+  @PatchMapping("/people")
+  public PersonResponse updatePerson(@RequestBody PersonUpdateRequest person) {
+    return new PersonResponse(
+      person.name().orElse(null),
+      person.age().orElse(0)
+    );
   }
 }
