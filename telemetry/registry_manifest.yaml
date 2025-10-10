@@ -1,0 +1,7 @@
+name: Spring Boilerplate
+description: Template repository for Spring applications
+semconv_version: 0.1.0
+schema_base_url: <base URL where the registry's schema files are hosted>
+dependencies:
+  - name: otel
+    registry_path: https://github.com/open-telemetry/semantic-conventions/archive/refs/tags/v1.38.0.zip[model]
