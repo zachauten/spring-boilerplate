@@ -1,4 +1,3 @@
 package boilerplate.model.responses;
 
-public record PersonResponse(String name, int age) {
-}
+public record PersonResponse(String name, int age) {}

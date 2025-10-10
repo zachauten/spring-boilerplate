@@ -2,12 +2,15 @@ package boilerplate.db.repository;
 
 import boilerplate.db.entities.Person;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Repository;
 
-public interface PersonRepository extends JpaRepository<Person, Long> {
-  @Override
+@Repository
+public interface PersonRepository extends CrudRepository<Person, Long> {
+
   @NonNull
+  @Query("")
   List<Person> findAll();
 
   @Override

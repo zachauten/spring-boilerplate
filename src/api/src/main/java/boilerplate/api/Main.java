@@ -4,7 +4,7 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"boilerplate.api", "boilerplate.db"})
 public class Main {
 
   public static void main(String... args) {
