@@ -46,6 +46,9 @@ jobs:
           subject-digest: ${{ fromJSON(steps.bake.outputs.metadata).default['containerimage.digest'] }}
           push-to-registry: true
 
+      - name: list files
+        run: ls -a ${{ github.workspace }}
+
       - name: attest SBOM
         uses: actions/attest-sbom@v3
         id: attest
