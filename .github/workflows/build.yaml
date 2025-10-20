@@ -27,7 +27,7 @@ jobs:
         with:
           images: ${{ env.IMAGE }}
 
-      - uses: docker/bake-action@v6
+      - uses: docker/bake-action@v5
         id: bake
         with:
           files: |
