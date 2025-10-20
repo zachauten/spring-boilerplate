@@ -27,39 +27,12 @@ jobs:
         with:
           images: ${{ env.IMAGE }}
 
-      - uses: docker/bake-action@v6
-        id: bake
+      - name: Build and push image
+        id: build
+        uses: docker/build-push-action@v6
         with:
-          source: .
-          files: |
-            ./docker-bake.hcl
-            ${{ steps.meta.outputs.bake-file }}
-          provenance: true
           sbom: true
+          provenance: mode=max
           push: true
-
-      - name: attest provenance
-        uses: actions/attest-build-provenance@v3
-        with:
-          subject-name: ${{ env.IMAGE }}
-          # https://github.com/docker/bake-action/issues/99
-          subject-digest: ${{ fromJSON(steps.bake.outputs.metadata).default['containerimage.digest'] }}
-          push-to-registry: true
-
-      - name: Generate SBOM
-        uses: anchore/sbom-action@v0
-        with:
-          image: ${{ env.IMAGE }}:sbom
-          format: 'spdx-json'
-          output-file: 'sbom.spdx.json'
-
-      - name: attest SBOM
-        uses: actions/attest-sbom@v3
-        id: attest
-        with:
-          subject-name: ${{ env.IMAGE }}
-          # https://github.com/docker/bake-action/issues/99
-          subject-digest: ${{ fromJSON(steps.bake.outputs.metadata).default['containerimage.digest'] }}
-          sbom-path: 'sbom.spdx.json'
-          push-to-registry: true
+          tags: ${{ steps.meta.outputs.tags }}
 
