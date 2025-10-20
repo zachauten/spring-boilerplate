@@ -53,5 +53,6 @@ jobs:
           subject-name: ${{ env.IMAGE }}
           # https://github.com/docker/bake-action/issues/99
           subject-digest: ${{ fromJSON(steps.bake.outputs.metadata).default['containerimage.digest'] }}
+          sbom-path: 'sbom.spdx.json'
           push-to-registry: true
 
