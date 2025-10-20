@@ -46,8 +46,12 @@ jobs:
           subject-digest: ${{ fromJSON(steps.bake.outputs.metadata).default['containerimage.digest'] }}
           push-to-registry: true
 
-      - name: list files
-        run: ls -a ${{ github.workspace }}
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.IMAGE }}:sbom
+          format: 'spdx-json'
+          output-file: 'sbom.spdx.json'
 
       - name: attest SBOM
         uses: actions/attest-sbom@v3
