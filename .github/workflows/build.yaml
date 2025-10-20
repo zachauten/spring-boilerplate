@@ -27,9 +27,10 @@ jobs:
         with:
           images: ${{ env.IMAGE }}
 
-      - uses: docker/bake-action@v5
+      - uses: docker/bake-action@v6
         id: bake
         with:
+          source: .
           files: |
             ./docker-bake.hcl
             ${{ steps.meta.outputs.bake-file }}
