@@ -37,3 +37,21 @@ jobs:
           sbom: true
           push: true
 
+      - name: attest provenance
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-name: ${{ env.IMAGE }}
+          # https://github.com/docker/bake-action/issues/99
+          subject-digest: ${{ fromJSON(steps.bake.outputs.metadata).default['containerimage.digest'] }}
+          push-to-registry: true
+
+      - name: attest SBOM
+        uses: actions/attest-sbom@v3
+        id: attest
+        with:
+          subject-name: ${{ env.IMAGE }}
+          # https://github.com/docker/bake-action/issues/99
+          subject-digest: ${{ fromJSON(steps.bake.outputs.metadata).default['containerimage.digest'] }}
+          sbom-path: 'sbom.spdx.json'
+          push-to-registry: true
+
