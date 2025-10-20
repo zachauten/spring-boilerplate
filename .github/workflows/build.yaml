@@ -37,9 +37,3 @@ jobs:
           sbom: true
           push: true
 
-      - uses: actions/attest-build-provenance@v3
-        with:
-          subject-name: ${{ env.IMAGE }}
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
-
