@@ -1,21 +1,4 @@
 services:
-  postgres:
-    image: postgres:18
-    environment:
-      POSTGRES_DB: boilerplate
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U boilerplate_user -d boilerplate"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   foo:
     build:
       context: "./"
@@ -26,7 +9,7 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318/"
       OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=B9B7E669-48A6-47C1-BCE4-F3B7AEF82754"
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
       collector:
         condition: service_healthy
@@ -47,10 +30,27 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318/"
       OTEL_RESOURCE_ATTRIBUTES: "service.version=alpha,deployment.environment=${USER}-local,host.name=${HOSTNAME},service.namespace=test,service.instance.id=1fd2b940-bc77-4415-812c-da32c28394d2"
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
       collector:
         condition: service_healthy
+
+  db:
+    image: mariadb:lts
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 
   collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib
@@ -88,4 +88,4 @@ services:
       start_period: 0s
 
 volumes:
-  postgres_data:
+  db:

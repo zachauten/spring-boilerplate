@@ -4,10 +4,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/boilerplate
-    username: boilerplate_user
-    password: boilerplate_pass
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:mariadb://db:3306/boilerplate
+    username: root
+    password:
+    driver-class-name: org.mariadb.jdbc.Driver
   threads:
     virtual:
       enabled: true

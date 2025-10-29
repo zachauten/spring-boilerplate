@@ -2,6 +2,8 @@ package boilerplate.db.repository;
 
 import boilerplate.db.entities.Person;
 import java.util.List;
+
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
   @NonNull
-  @Query("")
+  @Query("SELECT * FROM people")
   List<Person> findAll();
 
   @Override
