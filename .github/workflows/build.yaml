@@ -27,10 +27,12 @@ jobs:
         with:
           images: ${{ env.IMAGE }}
 
-      - uses: docker/bake-action@v5
-        id: bake
+      - name: Build and push image
+        id: build
+        uses: docker/build-push-action@v6
         with:
-          files: |
-            ./docker-bake.hcl
-            ${{ steps.meta.outputs.bake-file }}
+          sbom: true
+          provenance: mode=max
           push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
