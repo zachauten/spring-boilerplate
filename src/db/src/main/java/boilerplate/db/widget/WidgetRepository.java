@@ -1,6 +1,5 @@
-package boilerplate.db.repository;
+package boilerplate.db.widget;
 
-import boilerplate.db.entities.Widget;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;

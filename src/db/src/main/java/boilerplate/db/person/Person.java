@@ -1,4 +1,4 @@
-package boilerplate.db.entities;
+package boilerplate.db.person;
 
 import org.springframework.data.annotation.Id;
 
