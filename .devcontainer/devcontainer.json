@@ -1,5 +1,8 @@
 {
   "build": { "dockerfile": "Dockerfile" },
+  "workspaceMount": "source=${localWorkspaceFolderBasename},target=/workspaces/${localWorkspaceFolderBasename},type=volume",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "onCreateCommand": "[ \"$(ls -A ${containerWorkspaceFolder})\" ] || git clone https://github.com/zachauten/spring-boilerplate.git ${containerWorkspaceFolder}",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
