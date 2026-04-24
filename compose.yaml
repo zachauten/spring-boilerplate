@@ -51,7 +51,6 @@ services:
       timeout: 5s
       retries: 3
 
-
   collector:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib
     build:

@@ -2,8 +2,6 @@ package boilerplate.api.people;
 
 import boilerplate.db.person.Person;
 import boilerplate.db.person.PersonRepository;
-import boilerplate.db.widget.Widget;
-import boilerplate.db.widget.WidgetRepository;
 import boilerplate.model.requests.PersonUpdateRequest;
 import boilerplate.model.responses.PersonResponse;
 import java.util.List;
@@ -19,17 +17,17 @@ public class PeopleController {
     this.personRepository = personRepository;
   }
 
-  @GetMapping("/people")
+  @GetMapping
   public List<Person> getAllPeople() {
     return personRepository.findAll();
   }
 
-  @PostMapping("/people")
+  @PostMapping
   public Person createPerson(@RequestBody Person person) {
     return personRepository.save(person);
   }
 
-  @PatchMapping("/people")
+  @PatchMapping
   public PersonResponse updatePerson(@RequestBody PersonUpdateRequest person) {
     return new PersonResponse(person.name().orElse(null), person.age().orElse(0));
   }

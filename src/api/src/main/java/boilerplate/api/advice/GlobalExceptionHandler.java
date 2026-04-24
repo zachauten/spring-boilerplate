@@ -4,6 +4,7 @@ import io.opentelemetry.instrumentation.annotations.WithSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,6 +13,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalExceptionHandler {
 
   private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+  @WithSpan
+  @ExceptionHandler(value = {HttpMediaTypeNotSupportedException.class})
+  @ResponseStatus(value = HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+  public String unsupportedMediaType(HttpMediaTypeNotSupportedException exception) {
+    return exception.getMessage();
+  }
 
   @WithSpan
   @ExceptionHandler(value = {Exception.class})
