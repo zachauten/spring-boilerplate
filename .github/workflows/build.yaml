@@ -1,5 +1,5 @@
 name: Build OCI image
-on: push
+on: [push, merge_group]
 jobs:
   Build:
     runs-on: ubuntu-latest
